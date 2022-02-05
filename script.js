@@ -23,9 +23,15 @@ fetch(
             .range([svgHeight - padding, padding]);
 
         // create axes
+        let xTicksInterval = 5;
+        if (svgWidth < 400) {
+            xTicksInterval = 20;
+        } else if (svgWidth < 600) {
+            xTicksInterval = 10;
+        }
         const xAxis = d3
             .axisBottom(xScale)
-            .tickValues(d3.timeYears(new Date(Math.ceil(d3.min(gdp, (d) => d[0]).getFullYear() / 5) * 5, 0), d3.max(gdp, (d) => d[0]), 5))
+            .tickValues(d3.timeYears(new Date(Math.ceil(d3.min(gdp, (d) => d[0]).getFullYear() / xTicksInterval) * xTicksInterval, 0), d3.max(gdp, (d) => d[0]), xTicksInterval))
             .tickFormat(d3.timeFormat('%Y'));
         const yAxis = d3.axisLeft(yScale);
         yAxis.ticks(4);
